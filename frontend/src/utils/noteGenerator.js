@@ -1,7 +1,26 @@
 import Vex from "vexflow";
 
+function convertToVexFlowKey(note) {
+    // Extract the pitch (e.g., Bb, C#, F) and octave (e.g., 3, 4)
+    const match = note.match(/^([A-Ga-g][b#]?)(\d+)$/);
+    if (!match) {
+        throw new Error(`Invalid note format: ${note}`);
+    }
+
+    const [, pitch, octave] = match;
+
+    // Convert pitch to lowercase and handle flats/sharps
+    const formattedPitch = pitch.toLowerCase().replace("b", "b").replace("#", "#");
+
+    return `${formattedPitch}/${octave}`;
+}
+
+
 function generateNoteSVG(note, length) {
     const VF = Vex.Flow;
+
+    // Convert note to VexFlow format
+    const vexflowKey = convertToVexFlowKey(note);
 
     // Create an SVG renderer and attach it to a DIV element
     const div = document.createElement("div");
@@ -18,13 +37,17 @@ function generateNoteSVG(note, length) {
     // Create a note
     const staveNote = new VF.StaveNote({
         clef: "treble",
-        keys: [note], // e.g., "c/4", "b/3"
+        keys: [vexflowKey], // e.g., "bb/3"
         duration: length, // e.g., "q" for quarter note, "h" for half note
     });
 
-    // Add accidentals if needed
-    if (note.includes("#")) staveNote.addAccidental(0, new VF.Accidental("#"));
-    if (note.includes("b")) staveNote.addAccidental(0, new VF.Accidental("b"));
+    // Add accidentals as modifiers
+    if (note.includes("#")) {
+        staveNote.addModifier(new VF.Accidental("#"), 0); // Apply sharp to the first notehead
+    }
+    if (note.includes("b")) {
+        staveNote.addModifier(new VF.Accidental("b"), 0); // Apply flat to the first notehead
+    }
 
     // Render the note
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
@@ -34,3 +57,5 @@ function generateNoteSVG(note, length) {
 
     return div.innerHTML; // Return the SVG as a string
 }
+
+export { generateNoteSVG };
