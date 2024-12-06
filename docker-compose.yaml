@@ -1,32 +1,41 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: ./backend
-    ports:
-      - '8000:8000'
-    networks:
-      - app-network
-    environment:
-      - FLASK_ENV=development
-    volumes:
-      - ./backend:/app
-
   frontend:
     build:
       context: ./frontend
-    ports:
-      - '3000:3000'
-    networks:
-      - app-network
-    depends_on:
-      - backend
-    environment:
-      - NODE_ENV=development
+      dockerfile: Dockerfile
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend:/app
+      - /app/node_modules  # Avoid node_modules overwriting
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Enables hot-reloading for React
+    command: npm start  # Run development server
 
-networks:
-  app-network:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5001:5000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:password@db:5432/music_teacher_db
+    command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
 
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: music_teacher_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
