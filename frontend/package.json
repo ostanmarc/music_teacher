@@ -1,0 +1,47 @@
+{
+  "name": "saxophone-practice-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@svgdotjs/svg.js": "^3.2.4",
+    "@svgr/webpack": "^8.1.0",
+    "chart.js": "^4.4.6",
+    "get-user-media-promise": "^1.1.4",
+    "lodash": "^4.17.21",
+    "pitchfinder": "^2.3.2",
+    "react": "^18.0.0",
+    "react-bootstrap": "^2.10.6",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^5.0.1",
+    "tone": "^14.8.30",
+    "vexflow": "^4.2.5",
+    "webmidi": "^3.1.12"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
