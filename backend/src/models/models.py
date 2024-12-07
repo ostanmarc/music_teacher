@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from backend.src.services.database import Base
+from src.services.database import Base
 
 class Note(Base):
     __tablename__ = "notes"

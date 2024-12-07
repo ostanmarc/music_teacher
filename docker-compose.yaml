@@ -30,7 +30,7 @@ services:
     image: postgres:14
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: music_teacher_db
     volumes:
       - postgres_data:/var/lib/postgresql/data

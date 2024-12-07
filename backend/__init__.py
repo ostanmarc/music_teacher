@@ -1,3 +1,3 @@
-import backend.src.models
-import backend.src.services
-import backend.src.routers
+import src.models
+import src.services
+import src.routers
